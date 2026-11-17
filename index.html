@@ -1,0 +1,290 @@
+<!doctype html>
+<html lang="zh-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>查投開票所｜2026九合一選舉｜ETtoday</title>
+<meta name="description" content="11月28日投票，你的投開票所在哪？輸入戶籍縣市、行政區、村里、鄰，立即查詢投開票所地點。">
+<meta property="og:title" content="查投開票所｜2026九合一選舉｜ETtoday">
+<meta property="og:description" content="11月28日投票，你的投開票所在哪？立即查詢。">
+<meta property="og:type" content="website">
+<link rel="icon" href="https://cdn2.ettoday.net/style/ettoday2017/images/favicon.svg">
+<style>
+:root{
+  --orange:#e94c15; --orange-d:#c93d0c; --navy:#2e266f; --ink:#222;
+  --muted:#666; --line:#e2e2e2; --bg:#f5f5f5; --card:#fff; --soft:#fdf0ea;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font:16px/1.65 "PingFang TC","Microsoft JhengHei","Noto Sans TC",Arial,sans-serif}
+a{color:var(--orange)}
+.wrap{max-width:960px;margin:0 auto;padding:0 16px}
+
+/* 頂部品牌列 */
+.top{background:#fff;border-bottom:3px solid var(--orange)}
+.top .wrap{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-top:12px;padding-bottom:12px}
+.top img{display:block;height:34px;width:auto}
+.top .tag{font-size:13px;color:var(--muted);text-align:right;line-height:1.3}
+.top .tag b{color:var(--navy)}
+
+/* Hero */
+.hero{background:linear-gradient(135deg,var(--navy),#4a3fa3);color:#fff}
+.hero .wrap{padding-top:32px;padding-bottom:34px}
+.date{display:inline-block;background:var(--orange);color:#fff;font-weight:700;font-size:14px;
+  padding:3px 12px;border-radius:3px;letter-spacing:.5px}
+.hero h1{margin:12px 0 6px;font-size:clamp(28px,6vw,40px);line-height:1.25;letter-spacing:1px}
+.hero p{margin:0;opacity:.9;font-size:16px}
+
+/* 查詢卡 */
+.card{background:var(--card);border:1px solid var(--line);border-radius:6px;
+  box-shadow:0 2px 8px rgba(0,0,0,.06);padding:20px;margin-top:-22px;position:relative}
+.card h2{margin:0 0 4px;font-size:20px;color:var(--navy);border-left:5px solid var(--orange);padding-left:10px}
+.sub{margin:0 0 16px;color:var(--muted);font-size:14px}
+.fields{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+label{display:block;font-size:14px;font-weight:700;color:#444}
+label small{font-weight:400;color:#999}
+select{width:100%;margin-top:4px;padding:10px 32px 10px 10px;font:inherit;font-weight:400;
+  border:1px solid #ccc;border-radius:4px;background:#fff;color:var(--ink);
+  appearance:none;-webkit-appearance:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%23e94c15' stroke-width='2'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 12px center}
+select:focus{outline:2px solid var(--orange);outline-offset:1px;border-color:var(--orange)}
+select:disabled{background-color:#f0f0f0;color:#aaa;cursor:not-allowed}
+.btn{display:block;width:100%;margin-top:16px;padding:12px;border:0;border-radius:4px;
+  background:var(--orange);color:#fff;font:inherit;font-size:17px;font-weight:700;cursor:pointer;letter-spacing:1px}
+.btn:hover:not(:disabled){background:var(--orange-d)}
+.btn:disabled{background:#ccc;cursor:not-allowed}
+.btn.ghost{background:#fff;color:var(--orange);border:1px solid var(--orange);margin-top:12px}
+.btn.ghost:hover{background:var(--soft)}
+
+/* 結果 */
+.status{margin:20px 0 8px;font-weight:700;color:var(--navy)}
+.status.err{color:var(--orange-d)}
+.results{list-style:none;margin:0;padding:0;display:grid;gap:12px}
+.box{background:#fff;border:1px solid var(--line);border-left:5px solid var(--orange);border-radius:4px;padding:14px 16px}
+.box .row1{display:flex;gap:10px;align-items:flex-start;justify-content:space-between}
+.box h3{margin:0;font-size:18px;color:var(--ink);line-height:1.4}
+.no{flex:none;background:var(--navy);color:#fff;font-size:13px;font-weight:700;padding:2px 9px;border-radius:3px;white-space:nowrap}
+.box .addr{margin:6px 0 0;color:#444}
+.meta{margin:8px 0 0;display:flex;flex-wrap:wrap;gap:6px 14px;font-size:14px;color:var(--muted);align-items:center}
+.pill{background:var(--soft);color:var(--orange-d);font-weight:700;padding:1px 9px;border-radius:99px;font-size:13px}
+.map{font-weight:700;text-decoration:none}
+.map:hover{text-decoration:underline}
+.hit{border-left-color:var(--navy);background:#fbfaff}
+
+.notice{margin:24px 0 0;padding:14px 16px;background:#fff;border:1px dashed #ccc;border-radius:4px;
+  font-size:14px;color:#555}
+.notice b{color:var(--orange-d)}
+.cec{display:inline-block;margin-top:8px;font-weight:700}
+
+footer{margin-top:36px;background:#2b2b2b;color:#bbb;font-size:13px}
+footer .wrap{padding-top:20px;padding-bottom:24px;display:flex;flex-direction:column;gap:6px}
+footer img{height:26px;width:auto;align-self:flex-start;filter:brightness(0) invert(1);opacity:.85}
+footer a{color:#fff}
+.sr{position:absolute;left:-9999px}
+@media (max-width:520px){
+  .top img{height:28px}
+  .card{padding:16px}
+}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <a href="https://www.ettoday.net/?from=logo" target="_blank" rel="noopener" aria-label="ETtoday 新聞雲">
+      <img src="assets/logo_ettoday.png" alt="ETtoday 新聞雲" width="210" height="34">
+    </a>
+    <div class="tag"><b>2026九合一選舉</b><br>專題</div>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <span class="date">11.28 週六｜08:00–16:00</span>
+    <h1>查投開票所</h1>
+    <p>選好戶籍地，立刻知道你要去哪裡投票。</p>
+  </div>
+</section>
+
+<main class="wrap">
+  <section class="card" aria-labelledby="t">
+    <h2 id="t">查詢你的投開票所</h2>
+    <p class="sub">以戶籍地查詢。村里、鄰為選填，填了可縮小範圍。</p>
+    <form id="f" autocomplete="off">
+      <div class="fields">
+        <label>選舉人類別<select id="voter"></select></label>
+        <label>戶籍縣市<select id="city" required></select></label>
+        <label>行政區<select id="dist" required disabled></select></label>
+        <label>村里 <small>選填</small><select id="vil" disabled></select></label>
+        <label>鄰 <small>選填</small><select id="nei" disabled></select></label>
+      </div>
+      <button class="btn" id="go" type="submit" disabled>查詢投開票所</button>
+    </form>
+  </section>
+
+  <p class="status" id="status" role="status" aria-live="polite"></p>
+  <ul class="results" id="list" aria-label="投開票所查詢結果" hidden></ul>
+  <button class="btn ghost" id="more" type="button" hidden>顯示更多投開票所</button>
+
+  <div class="notice">
+    <b>投票前請注意：</b>投票請攜帶國民身分證與印章（或簽名），並依投票通知單所載地點為準。
+    本頁資料若與通知單或中選會最新公告不同，以官方為準。
+    <br><a class="cec" href="https://info.cec.gov.tw/vote2026/voteSearch/" target="_blank" rel="noopener">中選會官方即時查詢 ↗</a>
+    <div id="src" style="margin-top:6px;color:#888"></div>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <img src="assets/logo_ettoday.png" alt="ETtoday 新聞雲">
+    <div>資料來源：中央選舉委員會（115年地方公職人員選舉投開票所資料）。</div>
+    <div>網頁製作：ETtoday 新聞雲。<a href="https://www.ettoday.net/?from=logo" target="_blank" rel="noopener">回 ETtoday 首頁</a></div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  const $ = id => document.getElementById(id);
+  const el = {voter:$('voter'),city:$('city'),dist:$('dist'),vil:$('vil'),nei:$('nei'),
+    go:$('go'),status:$('status'),list:$('list'),more:$('more'),src:$('src'),form:$('f')};
+  const PAGE = 20;
+  let DB = null, matches = [], shown = 0, targetNei = '';
+
+  const opt = (v,t) => { const o=document.createElement('option'); o.value=v; o.textContent=t; return o; };
+  const fill = (sel, first, items, disabled) => {
+    sel.replaceChildren(opt('', first));
+    items.forEach(([v,t]) => sel.appendChild(opt(v,t)));
+    sel.disabled = !!disabled;
+  };
+  const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+  // 鄰別字串（如 "1-7"、"1,2,5,10"、"1-3,8"）是否包含第 n 鄰
+  function hasNei(spec, n){
+    n = +n;
+    if(!/\d/.test(spec)) return true; // 不分鄰（整個村里）
+    return String(spec).split(/[,，、.．\s]+/).some(p => {
+      const m = p.trim().match(/^(\d+)(?:\s*[-~－]\s*(\d+))?$/);
+      if(!m) return false;
+      const a=+m[1], b=m[2]?+m[2]:a;
+      return n>=a && n<=b;
+    });
+  }
+  // 所有鄰別字串 → 可選的鄰（排序後的數字）
+  function neiList(boxes){
+    const s = new Set();
+    boxes.forEach(b => String(b[3]).split(/[,，、.．\s]+/).forEach(p => {
+      const m = p.trim().match(/^(\d+)(?:\s*[-~－]\s*(\d+))?$/);
+      if(!m) return;
+      const a=+m[1], z=m[2]?+m[2]:a;
+      for(let i=a;i<=z && i<=999;i++) s.add(i);
+    }));
+    return [...s].sort((x,y)=>x-y);
+  }
+
+  const cityObj = () => DB.cities.find(c => c.code===el.city.value);
+  const deptsOf = () => { const c=cityObj(); return c ? (c.v[el.voter.value]||[]) : []; };
+  const deptObj = () => deptsOf().find(d => d[0]===el.dist.value);
+  const liObj  = () => { const d=deptObj(); return d ? d[1].find(l => l[0]===el.vil.value) : null; };
+
+  function resetBelow(level){
+    if(level<=1){ fill(el.dist,'請選擇行政區',[],true); }
+    if(level<=2){ fill(el.vil,'全部村里',[],true); }
+    if(level<=3){ fill(el.nei,'全部鄰',[],true); }
+    el.go.disabled = !(el.city.value && el.dist.value);
+  }
+
+  function onVoterOrCity(){
+    clearResults();
+    resetBelow(1);
+    if(!el.city.value) return;
+    const ds = deptsOf();
+    fill(el.dist,'請選擇行政區', ds.map(d=>[d[0],d[0]]), false);
+    if(!ds.length){ setStatus('此縣市沒有這個類別的選舉人資料。',true); }
+    el.go.disabled = true;
+  }
+  function onDist(){
+    clearResults();
+    resetBelow(2);
+    const d = deptObj(); if(!d) return;
+    fill(el.vil,'全部村里', d[1].map(l=>[l[0],l[0]]), false);
+    el.go.disabled = false;
+  }
+  function onVil(){
+    clearResults();
+    resetBelow(3);
+    const l = liObj(); if(!l) return;
+    const ns = neiList(l[1]);
+    if(ns.length) fill(el.nei,'全部鄰', ns.map(n=>[n,n+'鄰']), false);
+  }
+
+  function setStatus(t, err){ el.status.textContent = t; el.status.className = 'status'+(err?' err':''); }
+  function clearResults(){ el.list.hidden=true; el.list.replaceChildren(); el.more.hidden=true; setStatus(''); matches=[]; shown=0; }
+
+  function render(){
+    const frag = document.createDocumentFragment();
+    matches.slice(shown, shown+PAGE).forEach(m => {
+      const li = document.createElement('li');
+      const hit = targetNei && hasNei(m.nei, targetNei);
+      li.className = 'box'+(hit?' hit':'');
+      const q = encodeURIComponent(m.addr);
+      li.innerHTML =
+        '<div class="row1"><h3>'+esc(m.name)+'</h3><span class="no">第'+esc(m.no)+'所</span></div>'+
+        '<p class="addr">'+esc(m.addr)+'</p>'+
+        '<div class="meta"><span>'+esc(m.dist)+' '+esc(m.vil)+'</span>'+
+        '<span class="pill">'+(/\d/.test(m.nei)?esc(m.nei)+'鄰':'不分鄰')+'</span>'+
+        '<a class="map" href="https://www.google.com/maps/search/?api=1&query='+q+'" target="_blank" rel="noopener">地圖 ↗</a></div>';
+      frag.appendChild(li);
+    });
+    el.list.appendChild(frag);
+    shown = Math.min(matches.length, shown+PAGE);
+    el.more.hidden = shown >= matches.length;
+  }
+
+  function search(e){
+    e.preventDefault();
+    clearResults();
+    const d = deptObj(); if(!d) return;
+    const vilSel = el.vil.value; targetNei = el.nei.value;
+    d[1].forEach(([liName, boxes]) => {
+      if(vilSel && liName!==vilSel) return;
+      boxes.forEach(b => {
+        if(targetNei && !hasNei(b[3], targetNei)) return;
+        matches.push({no:b[0],name:b[1],addr:b[2],nei:b[3],vil:liName,dist:d[0]});
+      });
+    });
+    if(!matches.length){
+      setStatus('查不到符合的投開票所，請放寬條件（例如不選鄰），或到中選會官網確認。', true);
+      return;
+    }
+    const where = el.city.selectedOptions[0].textContent+d[0]+(vilSel?vilSel:'')+(targetNei?targetNei+'鄰':'');
+    setStatus(where+'：找到'+matches.length+'個投開票所');
+    el.list.hidden = false;
+    render();
+    el.status.scrollIntoView({behavior:'smooth', block:'start'});
+  }
+
+  function init(){
+    fill(el.voter,'', [], false); el.voter.replaceChildren();
+    DB.voters.forEach(([c,n]) => el.voter.appendChild(opt(c,n)));
+    fill(el.city,'請選擇縣市', DB.cities.map(c=>[c.code,c.name]), false);
+    resetBelow(1);
+    el.src.textContent = '資料更新日期：'+(p=>p[0]+'年'+(+p[1])+'月'+(+p[2])+'日')(DB.updated.split('-'))+'。';
+    el.voter.addEventListener('change', onVoterOrCity);
+    el.city.addEventListener('change', onVoterOrCity);
+    el.dist.addEventListener('change', onDist);
+    el.vil.addEventListener('change', onVil);
+    el.more.addEventListener('click', render);
+    el.form.addEventListener('submit', search);
+  }
+
+  fill(el.city,'資料載入中…',[],true);
+  fetch('data/stations.json').then(r=>{ if(!r.ok) throw 0; return r.json(); })
+    .then(j=>{ DB=j; init(); })
+    .catch(()=>{ fill(el.city,'載入失敗',[],true); setStatus('資料載入失敗，請重新整理，或改用中選會官網查詢。',true); });
+})();
+</script>
+</body>
+</html>
