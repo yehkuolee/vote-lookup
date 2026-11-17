@@ -84,7 +84,54 @@ footer .wrap{padding-top:20px;padding-bottom:24px;display:flex;flex-direction:co
 footer img{height:26px;width:auto;align-self:flex-start;filter:brightness(0) invert(1);opacity:.85}
 footer a{color:#fff}
 .sr{position:absolute;left:-9999px}
+
+/* 動線圖 */
+.sec{margin-top:32px}
+.sec h2{margin:0 0 4px;font-size:22px;color:var(--navy);border-left:5px solid var(--orange);padding-left:10px}
+.sec .sub{margin-bottom:14px}
+.stations{list-style:none;margin:0;padding:0;display:flex;gap:0}
+.stations li{flex:1 1 0;min-width:0}
+.stations button{width:100%;border:1px solid var(--line);background:#fff;padding:12px 6px 10px;
+  font:inherit;font-weight:700;font-size:14px;color:#555;cursor:pointer;border-radius:0;line-height:1.3}
+.stations li:first-child button{border-radius:6px 0 0 6px}
+.stations li:last-child button{border-radius:0 6px 6px 0}
+.stations li+li button{border-left:0}
+.stations .n{display:block;margin:0 auto 4px;width:26px;height:26px;line-height:26px;border-radius:50%;
+  background:#ccc;color:#fff;font-size:14px}
+.stations button[aria-current="step"]{background:var(--soft);color:var(--orange-d);border-color:var(--orange)}
+.stations button[aria-current="step"] .n{background:var(--orange)}
+.detail{margin-top:12px;background:#fff;border:1px solid var(--line);border-radius:6px;padding:16px 18px}
+.detail h3{margin:0 0 6px;font-size:19px;color:var(--navy)}
+.detail p{margin:0 0 8px}
+.detail ul{margin:0;padding-left:20px;color:#444}
+.detail .tip{margin-top:10px;background:var(--soft);border-radius:4px;padding:8px 12px;font-size:14px;color:var(--orange-d)}
+.nav{display:flex;gap:10px;margin-top:12px}
+.nav .btn{margin-top:0}
+
+/* 演練 */
+.prog{display:flex;gap:6px;margin:0 0 12px}
+.prog i{flex:1;height:6px;border-radius:3px;background:#ddd}
+.prog i.on{background:var(--orange)}
+.prog i.ok{background:var(--navy)}
+.q{background:#fff;border:1px solid var(--line);border-radius:6px;padding:18px}
+.q .lv{display:inline-block;background:var(--navy);color:#fff;font-size:13px;font-weight:700;padding:2px 10px;border-radius:3px}
+.q h3{margin:10px 0 4px;font-size:19px}
+.q .scene{margin:0 0 12px;color:#555}
+.opts{display:grid;gap:8px}
+.opt{text-align:left;width:100%;padding:12px 14px;border:1px solid #ccc;border-radius:4px;background:#fff;
+  font:inherit;cursor:pointer;color:var(--ink)}
+.opt:hover:not(:disabled){border-color:var(--orange);background:var(--soft)}
+.opt:disabled{cursor:default}
+.opt.right{border-color:#1a8f4c;background:#e9f7ef}
+.opt.wrong{border-color:#c62828;background:#fdecea}
+.fb{margin-top:12px;padding:10px 14px;border-radius:4px;font-size:15px}
+.fb.right{background:#e9f7ef;color:#14663a}
+.fb.wrong{background:#fdecea;color:#a12020}
+.result{text-align:center;background:#fff;border:1px solid var(--line);border-radius:6px;padding:24px 18px}
+.result .score{font-size:44px;font-weight:800;color:var(--orange)}
+.result h3{margin:6px 0;color:var(--navy);font-size:21px}
 @media (max-width:520px){
+  .stations button{font-size:12px;padding:10px 2px 8px}
   .top img{height:28px}
   .card{padding:16px}
 }
@@ -106,6 +153,7 @@ footer a{color:#fff}
     <span class="date">11.28 週六｜08:00–16:00</span>
     <h1>查投開票所</h1>
     <p>選好戶籍地，立刻知道你要去哪裡投票。</p>
+    <p style="margin-top:10px;font-size:15px"><a href="#map" style="color:#fff">投票所怎麼走 ↓</a>　<a href="#game" style="color:#fff">開始演練 ↓</a></p>
   </div>
 </section>
 
@@ -128,6 +176,23 @@ footer a{color:#fff}
   <p class="status" id="status" role="status" aria-live="polite"></p>
   <ul class="results" id="list" aria-label="投開票所查詢結果" hidden></ul>
   <button class="btn ghost" id="more" type="button" hidden>顯示更多投開票所</button>
+
+
+  <section class="sec" id="map" aria-labelledby="mt">
+    <h2 id="mt">投票所怎麼走？</h2>
+    <p class="sub">點選站點，看看每一站要做什麼。</p>
+    <ol class="stations" id="stations" aria-label="投票順序"></ol>
+    <div class="detail" aria-live="polite"><h3 id="sd-t"></h3><p id="sd-p"></p><ul id="sd-l"></ul><div class="tip" id="sd-tip"></div></div>
+    <div class="nav"><button class="btn ghost" id="sd-prev" type="button">← 上一站</button><button class="btn" id="sd-next" type="button">下一站 →</button></div>
+    <p class="sub" style="margin-top:10px;font-size:13px">投票所配置為示意，入口、出口及桌位依各投票所空間調整，現場請依工作人員引導。</p>
+  </section>
+
+  <section class="sec" id="game" aria-labelledby="gt">
+    <h2 id="gt">投票日演練</h2>
+    <p class="sub">4關小測驗，先在家走一遍，投票當天不慌張。</p>
+    <div class="prog" id="prog" aria-hidden="true"></div>
+    <div id="gbox"></div>
+  </section>
 
   <div class="notice">
     <b>投票前請注意：</b>投票請攜帶國民身分證與印章（或簽名），並依投票通知單所載地點為準。
@@ -284,6 +349,82 @@ footer a{color:#fff}
   fetch('data/stations.json').then(r=>{ if(!r.ok) throw 0; return r.json(); })
     .then(j=>{ DB=j; init(); })
     .catch(()=>{ fill(el.city,'載入失敗',[],true); setStatus('資料載入失敗，請重新整理，或改用中選會官網查詢。',true); });
+})();
+
+(function(){
+  const $=id=>document.getElementById(id);
+  const ST=[
+    {n:'入口查驗',t:'第1站：入口，查驗身分',p:'進投票所先找到自己的投開票所編號，向查驗人員出示身分證件。',
+     l:['攜帶國民身分證','工作人員核對選舉人名冊','確認是你的所別再往前走'],tip:'走錯所不能投票，出門前先用上面的查詢確認所別。'},
+    {n:'領票',t:'第2站：領票桌',p:'核對身分後，在名冊上簽名、蓋章或按指印，領取選票。',
+     l:['領到的選票種類與張數，依你戶籍所在地而不同','當場看一下票有沒有污損、缺漏','有問題立刻跟工作人員說'],tip:'選票不要帶出投票所。'},
+    {n:'圈票',t:'第3站：圈票處',p:'到圈票處，用圈票工具在你支持的候選人號次欄上蓋一個圈。',
+     l:['每張選票只能圈一位候選人','只使用現場提供的圈票工具','圈完自行折好選票'],tip:'圈票處內不能拍攝選票，也不要把選票帶出圈票處。'},
+    {n:'投票',t:'第4站：投入票匭',p:'把圈好、折好的選票，投進對應選舉種類的票匭。',
+     l:['票匭上有標示選舉種類，別投錯','票投進去就不能拿回來','投完依指示從出口離場'],tip:'投票時間08:00至16:00，建議避開尾聲提早出門。'}
+  ];
+  let cur=0;
+  const ol=$('stations');
+  ST.forEach((s,i)=>{const li=document.createElement('li');const b=document.createElement('button');
+    b.type='button';b.innerHTML='<span class="n">'+(i+1)+'</span>'+s.n;b.addEventListener('click',()=>go(i));li.appendChild(b);ol.appendChild(li);});
+  function go(i){
+    cur=Math.max(0,Math.min(ST.length-1,i)); const s=ST[cur];
+    ol.querySelectorAll('button').forEach((b,k)=>{ if(k===cur) b.setAttribute('aria-current','step'); else b.removeAttribute('aria-current'); });
+    $('sd-t').textContent=s.t; $('sd-p').textContent=s.p; $('sd-tip').textContent='提醒：'+s.tip;
+    $('sd-l').replaceChildren(...s.l.map(x=>{const li=document.createElement('li');li.textContent=x;return li;}));
+    $('sd-prev').disabled=cur===0; $('sd-next').disabled=cur===ST.length-1;
+  }
+  $('sd-prev').addEventListener('click',()=>go(cur-1));
+  $('sd-next').addEventListener('click',()=>go(cur+1));
+  go(0);
+
+  const Q=[
+    {lv:'第1關｜出門前',t:'你要出門投票了，最少要帶什麼？',sc:'11月28日早上，鞋子穿好了。',
+     o:['國民身分證，加上印章（或到場簽名、按指印）','只帶投票通知單','只帶健保卡'],a:0,
+     ok:'答對了。身分證一定要帶，領票時再簽名、蓋章或按指印。通知單可以幫你找所別，但不能取代身分證。',
+     no:'再想想。投票一定要出示國民身分證，通知單與健保卡都不能取代，領票時還要簽名、蓋章或按指印。'},
+    {lv:'第2關｜領票',t:'領票時發現其中一張選票有破損，怎麼辦？',sc:'你在領票桌，手上拿到一疊選票。',
+     o:['先帶去圈票，投進去再說','當場向工作人員反映','自己把它補好'],a:1,
+     ok:'答對了。有污損或缺漏，當場請工作人員處理最安全，別自己動手腳。',
+     no:'不對喔。選票有狀況要在領票時就告訴工作人員，不要自行修補，也不要硬投。'},
+    {lv:'第3關｜圈票',t:'在圈票處，你想把圈好的選票拍下來發社群，可以嗎？',sc:'你走進圈票處，手上拿著手機。',
+     o:['可以，拍完再投','不可以，圈票處內不能拍攝選票','只要不拍到臉就可以'],a:1,
+     ok:'答對了。圈票處是保障投票秘密的地方，不能拍攝選票，也別把選票帶出去。',
+     no:'不行喔。圈票處內不能拍攝選票，這跟有沒有拍到臉無關。'},
+    {lv:'第4關｜投票',t:'圈好票了，接下來要把票投去哪？',sc:'你面前有好幾個票匭。',
+     o:['隨便一個，反正都是票匭','投進對應選舉種類的票匭','交給工作人員代投'],a:1,
+     ok:'答對了。票匭上有標示選舉種類，核對清楚再投，投完就完成了。',
+     no:'再看一次。每種選舉有各自的票匭，要依標示投入，並且自己投。'}
+  ];
+  let qi=0,score=0;
+  const box=$('gbox'),prog=$('prog');
+  function drawProg(){prog.replaceChildren(...Q.map((_,i)=>{const e=document.createElement('i');
+    if(i<qi) e.className='ok'; else if(i===qi) e.className='on'; return e;}));}
+  function show(){
+    drawProg();
+    if(qi>=Q.length){
+      const msg=score===4?'全對！你已經是投票達人。':score>=2?'不錯，錯的題目再看一次。':'回到上面的動線圖看一遍，再來挑戰。';
+      box.innerHTML='<div class="result"><div class="score">'+score+' / 4</div><h3>'+msg+'</h3><p>別忘了：11月28日08:00至16:00，帶身分證與印章出門。</p></div>';
+      const r=document.createElement('button');r.className='btn';r.type='button';r.textContent='再玩一次';
+      r.addEventListener('click',()=>{qi=0;score=0;show();});box.firstChild.appendChild(r);
+      return;
+    }
+    const q=Q[qi];
+    box.innerHTML='<div class="q"><span class="lv"></span><h3></h3><p class="scene"></p><div class="opts"></div><div id="fb"></div></div>';
+    box.querySelector('.lv').textContent=q.lv; box.querySelector('h3').textContent=q.t; box.querySelector('.scene').textContent=q.sc;
+    const wrap=box.querySelector('.opts');
+    q.o.forEach((t,i)=>{const b=document.createElement('button');b.type='button';b.className='opt';b.textContent=t;
+      b.addEventListener('click',()=>pick(i));wrap.appendChild(b);});
+  }
+  function pick(i){
+    const q=Q[qi],right=i===q.a; if(right) score++;
+    box.querySelectorAll('.opt').forEach((b,k)=>{b.disabled=true; if(k===q.a) b.classList.add('right'); else if(k===i) b.classList.add('wrong');});
+    const fb=$('fb'); fb.innerHTML='<div class="fb '+(right?'right':'wrong')+'"></div>';
+    fb.firstChild.textContent=(right?'✔ ':'✘ ')+(right?q.ok:q.no);
+    const n=document.createElement('button');n.className='btn';n.type='button';n.textContent=qi===Q.length-1?'看結果':'下一關 →';
+    n.addEventListener('click',()=>{qi++;show();});fb.appendChild(n);
+  }
+  show();
 })();
 </script>
 </body>
